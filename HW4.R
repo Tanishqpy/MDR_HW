@@ -134,37 +134,5 @@ cat("MSE (estimate sigma^2) =", MSE2, "\n")
 cat("Proportion explained (R^2) = ", R2)
 cat("F statistic =", F2, " with df =", (k2 - 1), "and", (N2 - k2), "\n")
 
-#Problem 3
-estimate <- function(coefs, group_means, group_ns, MSE, df_resid, conf.level = 0.95) {
-  Lhat <- sum(coefs * group_means)
-  est_var <- MSE * sum( (coefs^2) / group_ns )
-  se <- sqrt(est_var)
-  tval <- Lhat / se
-  alpha <- 1 - conf.level
-  tcrit <- qt(1 - alpha/2, df_resid)
-  CI <- c(Lhat - tcrit * se, Lhat + tcrit * se)
-  pval <- 2 * pt(-abs(tval), df_resid)
-  list(Lhat = Lhat, se = se, t = tval, p = pval, CI = CI)
-}
 
-group_means_p1 <- as.numeric(group_means)
-group_ns_p1 <- rep(4, length(group_means_p1))
-c_example <- c(0.5, 0.5, -0.5, -0.5)
-res <- estimate(c_example, group_means_p1, group_ns_p1, MSE, N - k)
-print(res)
-
-print_<- function(cvec, name = "contrast") {
-  res <- estimate(cvec, group_means_p1, group_ns_p1, MSE, N - k)
-  cat("\nContrast:", name, "\n")
-  cat("Coefficients:", paste(cvec, collapse = ", "), "\n")
-  cat("Estimate (Lhat) =", res$Lhat, "\n")
-  cat("Std. Error =", res$se, "\n")
-  cat("t =", res$t, " df =", N - k, " p =", res$p, "\n")
-  cat("95% CI = (", res$CI[1], ",", res$CI[2], ")\n")
-}
-print_(c_example, "Avg(1,2) - Avg(3,4)")
-
-anova_report
-pair_df
-data.frame(Tukey = I(list(tukey$tech)))
-
+                           
